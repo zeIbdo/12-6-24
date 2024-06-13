@@ -9,7 +9,7 @@ internal class Program
     {
         
 
-        Console.WriteLine("Fullname daxil edin:");
+        Console.WriteLine("Ad daxil edin:");
         string fullName = Console.ReadLine();
         Console.WriteLine("Email daxil ediin");
         string email = Console.ReadLine();
@@ -35,7 +35,6 @@ internal class Program
                     string groupNo = Console.ReadLine();
                 convert:
                     Console.WriteLine("Telebe sayi ucun limit daxil edin");
-                    //int studentLimit = Convert.ToInt32(Console.ReadLine());
                     bool studentLimitConvert = int.TryParse(Console.ReadLine(), out int studentLimit);
                     Group group;
                     if (studentLimitConvert)
@@ -50,7 +49,7 @@ internal class Program
                     {
                         Console.WriteLine("1.Show all students" +
                         "2.Get student by id" +
-                        "3.Add srudent" +
+                        "3.Add student" +
                         "0.Quit");
                         string choice = Console.ReadLine();
                         switch (choice)

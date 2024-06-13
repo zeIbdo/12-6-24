@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
-namespace _12_6_24
+﻿namespace _12_6_24
 {
     internal class Group
     {
@@ -95,6 +88,7 @@ namespace _12_6_24
                     return student;
                 }
             }
+            
             return null;
         }
         public void GetAllStudents()

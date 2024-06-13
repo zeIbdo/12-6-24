@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace _12_6_24
+﻿namespace _12_6_24
 {
     internal abstract class Account
     {
