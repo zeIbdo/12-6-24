@@ -2,7 +2,7 @@
 
 internal class Student
 {
-    private int _id;
+    private static int _id;
     public int Id { get; }
     public string FullName { get; set; }
     public int Point { get; set; }

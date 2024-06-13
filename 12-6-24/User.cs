@@ -5,7 +5,7 @@ namespace _12_06_24;
 internal class User : Account
 {
     private string _password;
-    private int _id;
+    private static int _id;
     public int Id { get; }
     public string FullName { get; set; }
     public string Email { get; set; }
