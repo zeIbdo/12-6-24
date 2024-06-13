@@ -1,63 +1,74 @@
 ﻿using _12_6_24;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace _12_6_24
+namespace _12_06_24;
+
+internal class User : Account
 {
-
-    class User : Account
+    private string _password;
+    private int _id;
+    public int Id { get; }
+    public string FullName { get; set; }
+    public string Email { get; set; }
+    public string Password
     {
-        private static int idCounter = 1;
-        public int Id { get; private set; }
-        public string Fullname { get; set; }
-        public string Email { get; set; }
-        private string password;
-        public string Password
+        get => _password;
+        set
         {
-            get { return password; }
-            set
+            while (!PasswordChecker(value))
             {
-                if (PasswordChecker(value))
-                    password = value;
-                else
-                    Console.WriteLine("yalnis sifre");
+                Console.WriteLine("Sifreni duzgun daxil edin:");
+                value = Console.ReadLine();
             }
+            _password = value;
         }
+    }
 
-        public User(string fullname, string email, string password)
+    public User(string email, string fullName, string password)
+    {
+        Id = ++_id;
+        Email = email;
+        FullName = fullName;
+        Password = password;
+
+    }
+
+
+    public override bool PasswordChecker(string password)
+    {
+        bool hasUpper = false;
+        bool hasLower = false;
+        bool hasDigit = false;
+
+
+        if (password.Length >= 8)
         {
-            this.Id = idCounter++;
-            this.Fullname = fullname;
-            this.Email = email;
-            this.Password = password;
-        }
-
-        public  override bool PasswordChecker(string password)
-        {
-            if (password.Length < 8)
-                return false;
-
-            bool hasUpper = false, hasLower = false, hasDigit = false;
-
             foreach (char c in password)
             {
                 if (char.IsUpper(c))
+                {
                     hasUpper = true;
-                if (char.IsLower(c))
+                }
+                else if (char.IsLower(c))
+                {
                     hasLower = true;
-                if (char.IsDigit(c))
+                }
+                else if (char.IsDigit(c))
+                {
                     hasDigit = true;
+                }
+
+
+                if (hasUpper && hasLower && hasDigit)
+                {
+                    return true;
+                }
             }
-
-            return hasUpper && hasLower && hasDigit;
         }
+        return false;
+    }
 
-        public override void ShowInfo()
-        {
-            Console.WriteLine($"ID: {Id}, Fullname: {Fullname}, Email: {Email}");
-        }
+    public override void ShowInfo()
+    {
+        Console.WriteLine($"{Id}-{FullName}-{Email}");
     }
 }

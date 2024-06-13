@@ -1,94 +1,103 @@
-﻿namespace _12_6_24
+﻿using _12_06_24;
+
+
+namespace _12_6_24;
+
+internal class Program
 {
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        
+
+        Console.WriteLine("Fullname daxil edin:");
+        string fullName = Console.ReadLine();
+        Console.WriteLine("Email daxil ediin");
+        string email = Console.ReadLine();
+        Console.WriteLine("Sifreni daxil edin");
+        string password = Console.ReadLine();
+        User user = new User(email, fullName, password);
+
+        bool isContinue = true;
+        while (isContinue)
         {
+            Console.WriteLine(
+                "1.Show Info" +
+                "2.Create new group");
+            string command = Console.ReadLine();
 
-
-
-
-            Console.WriteLine("Enter Fullname:");
-            string fullname = Console.ReadLine();
-
-            Console.WriteLine("Enter Email:");
-            string email = Console.ReadLine();
-            Ibrahim:
-            Console.WriteLine("Enter Password:");
-            string password = Console.ReadLine();
-
-            User user = new User(fullname, email, password);
-            if (user.PasswordChecker(password) == false)
-                goto Ibrahim;
-
-
-            Console.WriteLine("1. Show info\n2. Create new group");
-            int choice = int.Parse(Console.ReadLine());
-
-            Group group = null;
-            if (choice == 2)
+            switch (command)
             {
-                Console.WriteLine("Enter Group Number:");
-                string groupNo = Console.ReadLine();
-
-                Console.WriteLine("Enter Student Limit:");
-                int studentLimit = int.Parse(Console.ReadLine());
-
-                group = new Group(groupNo, studentLimit);
-            }
-            else
-            {
-                user.ShowInfo();
-            }
-
-            while (true)
-            {
-                Console.WriteLine("1. Show all students\n2. Get student by id\n3. Add student\n0. Quit");
-                choice = int.Parse(Console.ReadLine());
-
-                if (choice == 0)
+                case "1":
+                    user.ShowInfo();
                     break;
-
-                switch (choice)
-                {
-                    case 1:
-                        foreach (var item in group.GetAllStudents())
+                case "2":
+                    Console.WriteLine("Qrup nomresi daxil edin");
+                    string groupNo = Console.ReadLine();
+                convert:
+                    Console.WriteLine("Telebe sayi ucun limit daxil edin");
+                    //int studentLimit = Convert.ToInt32(Console.ReadLine());
+                    bool studentLimitConvert = int.TryParse(Console.ReadLine(), out int studentLimit);
+                    Group group;
+                    if (studentLimitConvert)
+                    {
+                        group = new(groupNo, studentLimit);
+                    }
+                    else
+                    {
+                        goto convert;
+                    }
+                    while (true)
+                    {
+                        Console.WriteLine("1.Show all students" +
+                        "2.Get student by id" +
+                        "3.Add srudent" +
+                        "0.Quit");
+                        string choice = Console.ReadLine();
+                        switch (choice)
                         {
-                            item.StudentInfo();
+                            case "1":
+                                group.GetAllStudents();
+                                break;
+                            case "2":
+                            Idconvert:
+                                Console.WriteLine("Id daxil edin");
+                                bool IdConvert = int.TryParse(Console.ReadLine(), out int id);
+                                if (IdConvert)
+                                {
+                                    group.GetStudent(id).StudentInfo();
+                                }
+                                else
+                                {
+                                    goto Idconvert;
+                                }
+                                break;
+                            case "3":
+                                Console.WriteLine("Ad daxil edin:");
+                                string name = Console.ReadLine();
+                            Pointconvert:
+                                Console.WriteLine("Point daxil edin");
+                                bool PointConvert = int.TryParse(Console.ReadLine(), out int point);
+                                if (PointConvert)
+                                {
+                                    Student student = new(name, point);
+                                    group.AddStudent(student);
+                                }
+                                else
+                                {
+                                    goto Pointconvert;
+                                }
+                                break;
+                            case "0":
+                                isContinue = false;
+                                return;
+                            default:
+                                break;
                         }
-                        break;
-                    case 2:
-                        Console.WriteLine("Enter Student ID:");
-                        int id = int.Parse(Console.ReadLine());
-                        var studentById = group.GetStudent(id);
-                        if (studentById != null)
-                        {
-                            studentById.StudentInfo();
-                        }
-                        else
-                        {
-                            Console.WriteLine("Student not found.");
-                        }
-                        break;
-                    case 3:
-                        Console.WriteLine("Enter Student Fullname:");
-                        string studentFullname = Console.ReadLine();
-
-                        Console.WriteLine("Enter Student Point:");
-                        double point = double.Parse(Console.ReadLine());
-
-                        var student = new Student(studentFullname, point);
-                        try
-                        {
-                            group.AddStudent(student);
-                        }
-                        catch (InvalidOperationException e)
-                        {
-                            Console.WriteLine(e.Message);
-                        }
-                        break;
-                }
+                    }
+                default:
+                    break;
             }
+
         }
     }
 }

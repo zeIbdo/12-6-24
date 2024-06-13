@@ -7,58 +7,107 @@ using System.Threading.Tasks;
 
 namespace _12_6_24
 {
-    class Group
+    internal class Group
     {
-        public string GroupNo { get; private set; }
-        public int StudentLimit { get; private set; }
-        private Student[] Students;
-        private int studentCount;
+        private string _groupNo;
+        private int _studentLimit;
+        Student[] students;
+        public string GroupNo
+        {
+            get => _groupNo;
+            set
+            {
+                while (!CheckGroupNo(value))
+                {
+                    Console.WriteLine("Qrup nomresini duzgun daxil edin!!!");
+                    value = Console.ReadLine();
+                }
+                _groupNo = value;
+            }
+        }
+        public int StudentLimit
+        {
+            get => _studentLimit;
+            set
+            {
+                if (value >= 5 && value <= 18)
+                {
+                    _studentLimit = value;
+                }
+                while (!(value >= 5 && value <= 18))
+                {
+                LimitConvert:
+                    Console.WriteLine("Telebe limiti 5 ve 18 arasi olmalidir ,zehmet olmasa duzgun daxil edin");
+                    bool limitConvert = int.TryParse(Console.ReadLine(), out int stuLimit);
+                    if (limitConvert)
+                    {
+                        value = stuLimit;
+                    }
+                    else
+                    {
+                        goto LimitConvert;
+                    }
+                }
+            }
+        }
 
         public Group(string groupNo, int studentLimit)
         {
-            if (!CheckGroupNo(groupNo)) Console.WriteLine("yalnis qrup nomresi");
-            if (studentLimit < 5 || studentLimit > 18) Console.WriteLine("5-18 araliginda olmalidir");
-
-            this.GroupNo = groupNo;
-            this.StudentLimit = studentLimit;
-            this.Students = new Student[studentLimit];
-            this.studentCount = 0;
+            GroupNo = groupNo;
+            StudentLimit = studentLimit;
+            students = new Student[0];
         }
+
+
 
         public bool CheckGroupNo(string groupNo)
         {
-            if (groupNo.Length != 5) return false;
-            if (!char.IsUpper(groupNo[0]) || !char.IsUpper(groupNo[1])) return false;
-            for (int i = 2; i < 5; i++)
+            if (groupNo.Length == 5)
             {
-                if (!char.IsDigit(groupNo[i])) return false;
+                if (char.IsUpper(groupNo[0]) && char.IsUpper(groupNo[1]) && char.IsDigit(groupNo[2]) && char.IsDigit(groupNo[3]) && char.IsDigit(groupNo[3]))
+                    return true;
+                return false;
             }
-            return true;
+            return false;
         }
 
         public void AddStudent(Student student)
         {
-            if (studentCount >= StudentLimit)
-                Console.WriteLine("limite catdi");
-            Students[studentCount++] = student;
+            if (students.Length < StudentLimit)
+            {
+                Array.Resize(ref students, students.Length + 1);
+                students[students.Length - 1] = student;
+                Console.WriteLine("Elave olundu");
+            }
+            else
+            {
+                Console.WriteLine("eelave olunmadi, qrupda yer yoxdur");
+            }
         }
+
 
         public Student GetStudent(int id)
         {
-            for (int i = 0; i < studentCount; i++)
+            foreach (Student student in students)
             {
-                if (Students[i].Id == id)
-                    return Students[i];
+                if (student.Id == id)
+                {
+                    return student;
+                }
             }
             return null;
         }
-
-        public Student[] GetAllStudents()
+        public void GetAllStudents()
         {
-            Student[] currentStudents = new Student[studentCount];
-            Array.Copy(Students, currentStudents, studentCount);
-            return currentStudents;
+            foreach (Student student in students)
+            {
+                student.StudentInfo();
+            }
+
         }
+
+
+
     }
 
 

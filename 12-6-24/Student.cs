@@ -1,28 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace _12_6_24;
 
-namespace _12_6_24
+internal class Student
 {
-    class Student
+    private int _id;
+    public int Id { get; }
+    public string FullName { get; set; }
+    public int Point { get; set; }
+
+    public Student(string fullName, int point)
     {
-        private static int idCounter = 1;
-        public int Id { get; private set; }
-        public string Fullname { get; set; }
-        public double Point { get; set; }
+        Id = ++_id;
+        FullName = fullName;
+        Point = point;
+    }
 
-        public Student(string fullname, double point)
-        {
-            this.Id = idCounter++;
-            this.Fullname = fullname;
-            this.Point = point;
-        }
-
-        public void StudentInfo()
-        {
-            Console.WriteLine($"ID: {Id}, Fullname: {Fullname}, Point: {Point}");
-        }
+    public void StudentInfo()
+    {
+        Console.WriteLine($"{Id}-{FullName}-{Point}");
     }
 }
